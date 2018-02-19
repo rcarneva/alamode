@@ -66,11 +66,13 @@ var alamode = {
         linkURLs = o["link_urls"],
         queryName = o["query_name"];
 
+    var new_tab = ("new_tab" in o) ? o["new_tab"] : [];
+
     var linkFormat = [];
     var colIndex = {};
 
     linkColumns.forEach(function(l,i) {
-      linkFormat.push( { column: l, link_string: linkURLs[i] });
+      linkFormat.push( { column: l, link_string: linkURLs[i], new_tab: (new_tab.length > i) ? new_tab[i] : false});
     })
 
     var data = alamode.getDataFromQuery(queryName),
@@ -119,8 +121,8 @@ var alamode = {
 
               url = url.replace(full,content);
             }
-
-            cells.eq(columnToShow).html("<a href='" + encodeURI(url) + "'>" + cellContent + "</a>")
+            target = l.new_tab ? " target='_blank'" : ""
+            cells.eq(columnToShow).html("<a href='" + encodeURI(url) + "'" + target + ">" + cellContent + "</a>")
           })
         }
       })
